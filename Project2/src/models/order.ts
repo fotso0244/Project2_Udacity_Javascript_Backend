@@ -5,7 +5,7 @@ import { User, UserStore } from './user';
 
 export type Order = {
      id?: string;
-     //order_id: string;
+     order_id: string;
      status: string;
      user_id: string;
      //product_id: string;
@@ -70,7 +70,7 @@ async currentOrderByUser(userId: string): Promise<{order_id: string}> {
 
 async completedOrdersByUser(userId: string): Promise<{id: string}[]> {
   try {
-    const sql = "select id from orders where status = 'complete' and user_id = $1"
+    const sql = "select order_id from orders where status = 'complete' and user_id = $1"
       //@ts-ignore
       const conn = await Client.connect()
 
@@ -85,17 +85,36 @@ async completedOrdersByUser(userId: string): Promise<{id: string}[]> {
 }
 
 async create_order(o: Order) {
-  const sql = 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *'
+  const sql = 'INSERT INTO orders (order_id, user_id, status) VALUES($1, $2) RETURNING *'
   //@ts-ignore
   const conn = await Client.connect()
 
   const result = await conn
-      .query(sql, [o.user_id, o.status])
+      .query(sql, [o.order_id, o.user_id, o.status])
 
   const order = result.rows[0]
 
   conn.release()
   return order
+}
+
+async updateStatus(id: string, status: string): Promise<Order> {
+  try {
+    // @ts-ignore
+    const conn = await Client.connect()
+    const sql = 'UPDATE orders SET status = $2 WHERE order_id = $1 RETURNING *'
+    /*INSERT INTO users (username, password_digest) VALUES($1, $2) RETURNING **/
+
+
+    const result = await conn.query(sql, [id, status])
+    const user = result.rows[0]
+
+    conn.release()
+
+    return user
+  } catch(err) {
+    throw new Error(`unable update status for order (${id}): ${err}`)
+  } 
 }
 
   async addProduct(op: OrderProduct, o: Order): Promise<OrderProduct> {

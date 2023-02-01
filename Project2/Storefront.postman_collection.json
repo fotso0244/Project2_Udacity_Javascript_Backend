@@ -406,6 +406,47 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Change status of an order to complete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"complete\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/2/orders/1",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"2",
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

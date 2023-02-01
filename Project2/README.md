@@ -53,26 +53,18 @@ Before submitting, make sure that your project is complete with a `README.md`. Y
 
 Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
 
-
-### 7. ENV Variables
-
-POSTGRES_HOST=172.18.0.3
-POSTGRES_DB=storefront
-POSTGRES_USER=storeuser
-POSTGRES_PASSWORD=store@123
-BCRYPT_PASSWORD=storefrontproject
-SALT_ROUNDS=10
-TOKEN_SECRET=storefront
-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkX2RpZ2VzdCI6ImFyaXMxMjMiLCJsYXN0bmFtZSI6ImZvdHNvIiwiZmlyc3RuYW1lIjoiYXJpc3RpZGUifSwiaWF0IjoxNjc1MTU1MTYzfQ.-W1l_u8pBgr1-u7_0ZIeYk5x8s3KIDo3Vsw_kOUtc9o
-
-### 8. SETUP Database
+### 7. SETUP Database
 
 CREATE USER storeuser WITH PASSWORD 'store@123';
 CREATE DATABASE storefront;
+CREATE DATABASE storefront_test;
 \c storefront
 GRANT ALL PRIVILEGES ON DATABASE storefront TO storeuser;
 GRANT ALL PRIVILEGES ON SCHEMA PUBLIC TO storeuser;
+\c storefront_test
+GRANT ALL PRIVILEGES ON DATABASE storefront_test TO storeuser;
+GRANT ALL PRIVILEGES ON SCHEMA PUBLIC TO storeuser;
 
-### 9. Postman collection
+### 8. Postman collection
 
 Storefront.postman_collection.json

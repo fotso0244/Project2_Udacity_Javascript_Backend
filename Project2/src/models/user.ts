@@ -84,7 +84,7 @@ export class UserStore {
         try {
       const sql = 'INSERT INTO users (firstname, lastname, password_digest) VALUES($1, $2, $3) RETURNING *'
       const hash = bcrypt.hashSync(
-        u.password_digest + BCRYPT_PASSWORD, 
+        u.password_digest + BCRYPT_PASSWORD!, 
         parseInt(SALT_ROUNDS as string)
       );
       // @ts-ignore
@@ -156,7 +156,7 @@ export class UserStore {
     
           //console.log(user)
     
-          if (bcrypt.compareSync(u.password_digest+BCRYPT_PASSWORD, user.password_digest)) { 
+          if (bcrypt.compareSync(u.password_digest+BCRYPT_PASSWORD!, user.password_digest)) { 
             return user
           }
         }

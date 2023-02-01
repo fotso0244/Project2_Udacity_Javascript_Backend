@@ -26,7 +26,18 @@ const index = async (_req: Request, res: Response) => {
   const orderid = await store.completedOrdersByUser(req.params.userid)
   res.json(orderid)
 }
-  
+const updateStatus = async (req: Request, res: Response) => {
+  if (!await store.show(req.params.orderid)) {
+    res.status(401).send(`order ${req.params.orderid} does not exist`)
+      return
+  }
+  if (req.body.status != 'complete') {
+    res.status(401).send('Status of an order can only change to complete')
+      return
+  }
+  const order = await store.updateStatus(req.params.orderid, req.body.status)
+  res.json(order)
+}
 
 const addProduct = async (_req: Request, res: Response) => {
   const orderId: string = _req.params.orderid
@@ -42,7 +53,7 @@ const addProduct = async (_req: Request, res: Response) => {
     //status: status
   }
   const newOrder: Order = {
-    id: orderId,
+    order_id: orderId,
     user_id: userId,
     status: status
   }
@@ -116,6 +127,11 @@ var corsOptions = {
 const orderRoutes = (app: express.Application) => {
     app.get('/orders', cors(corsOptions), index)
     app.get('/orders/:id', cors(corsOptions), show)
+    app.put('/users/:id/orders/:orderid', cors({
+      origin: '*',
+      optionsSuccessStatus: 200,// For legacy browser support
+      methods: "PUT"
+    }), verifyAuthToken, checkid, updateStatus)
     app.get('/current-order-by-user/:id', cors(corsOptions), verifyAuthToken, checkid, currentOrderByUser)
     app.get('/completed-orders-by-users/:id', cors(corsOptions), verifyAuthToken, checkid, completedOrdersByUser)
     // add product to an order
