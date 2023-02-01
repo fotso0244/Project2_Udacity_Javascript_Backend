@@ -1,0 +1,9 @@
+{
+  "dev": {
+    "driver": "pg",
+    "host": "172.18.0.3",
+    "database": "storefront",
+    "user": "storeuser",
+    "password": "store@123"
+  }
+}

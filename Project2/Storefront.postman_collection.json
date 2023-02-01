@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "767014fa-0a9a-4959-b930-727e5e2436ba",
+		"name": "Storefront",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21309575"
+	},
+	"item": [
+		{
+			"name": "authenticate",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"firstname\":\"idriss\",\n    \"lastname\": \"notouom\",\n    \"password_hash\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxNzU2NzR9.2iERGZMOWl5H09yfqdN-Y33GMfIUsxrPcoGVEKo1vvU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:4000/users/list",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"users",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBhc3N3b3JkX2RpZ2VzdCI6ImFyaXMxMjMiLCJsYXN0bmFtZSI6ImZvdHNvIiwiZmlyc3RuYW1lIjoiYXJpc3RpZGUifSwiaWF0IjoxNjc1MTU1MTYzfQ.-W1l_u8pBgr1-u7_0ZIeYk5x8s3KIDo3Vsw_kOUtc9o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\":\"aristide\",\n    \"lastname\": \"fotso\",\n    \"password_hash\": \"aris123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/2",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\":\"aristide\",\n    \"lastname\": \"fotso\",\n    \"password_hash\": \"fotso123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/1",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name_prod\":\"crayon\",\n    \"price\": \"100\",\n    \"category\":\"fourniture scolaire\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/products",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/products",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/products/1",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get 5 most popular products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/most-popular-products",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"most-popular-products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get products per category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/products-by-category/fourniture scolaire",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"products-by-category",
+						"fourniture scolaire"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product to an order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quantity\": 10,\n    \"status\": \"activate\",\n    \"product_id\":\"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/2/orders/1/products",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"2",
+						"orders",
+						"1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get current order by user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/current-order-by-user/2",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"current-order-by-user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get completed orders by user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Imxhc3RuYW1lIjoibm90b3VvbSIsImZpcnN0bmFtZSI6ImlkcmlzcyJ9LCJpYXQiOjE2NzUxODM5MTV9.KjjQxB9Fk_rNDoMVyemalupgZgvANwWlRFFV57_kiOc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/completed-orders-by-users/2",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"completed-orders-by-users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "127.0.0.1",
+			"type": "string"
+		},
+		{
+			"key": "port",
+			"value": "4000",
+			"type": "string"
+		}
+	]
+}

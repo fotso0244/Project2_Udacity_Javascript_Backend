@@ -1,0 +1,5 @@
+.env
+node_modules
+docker-compose.yml
+CODEOWNERS
+LICENSE.txt
