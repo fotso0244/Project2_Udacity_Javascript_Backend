@@ -1,4 +1,4 @@
-import { OrderStore, Order } from "../models/order"
+import { OrderStore, OrderProduct, Order } from "../models/order"
 import express, { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import cors from 'cors'
@@ -34,22 +34,31 @@ const addProduct = async (_req: Request, res: Response) => {
   const productId: string = _req.body.product_id
   const status: string = _req.body.status
   const quantity: number = parseInt(_req.body.quantity)
-  const newOrder = {
+  const newOrderProduct: OrderProduct = {
     order_id: orderId,
     product_id: productId,
     quantity: quantity,
+    //user_id: userId,
+    //status: status
+  }
+  const newOrder: Order = {
+    id: orderId,
     user_id: userId,
     status: status
   }
 
   try {
-    const addedProduct = await store.addProduct(newOrder)
-    if ((addedProduct.order_id=='') && (addedProduct.user_id=='')) {
-      res.status(401).send(`product ${addedProduct.product_id} does not exist in products table`)
+    const addedProduct = await store.addProduct(newOrderProduct, newOrder)
+    if (addedProduct.order_id=='') {
+      res.status(401).send(`product ${addedProduct.product_id} does not exist`)
       return
     }
-    if ((addedProduct.order_id=='') && (addedProduct.user_id!='')) {
-      res.status(401).send(`user ${addedProduct.user_id} does not exist in users table`)
+    if ((addedProduct.product_id=='')) {
+      res.status(401).send(`Cannot add product ${productId} to order ${orderId}, because this order status is complete`)
+      return
+    }
+    if ((addedProduct.product_id=='') && (addedProduct.order_id=='')) {
+      res.status(401).send(`user ${userId} does not exist`)
       return
     }
     res.json(addedProduct)

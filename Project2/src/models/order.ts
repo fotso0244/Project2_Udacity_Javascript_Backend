@@ -5,11 +5,17 @@ import { User, UserStore } from './user';
 
 export type Order = {
      id?: string;
-     order_id: string;
+     //order_id: string;
      status: string;
      user_id: string;
-     product_id: string;
-     quantity: Number;
+     //product_id: string;
+     //quantity: Number;
+}
+export type OrderProduct = {
+  id?: string;
+  order_id: string;
+  product_id: string;
+  quantity: Number;
 }
 
 export class OrderStore {
@@ -62,9 +68,9 @@ async currentOrderByUser(userId: string): Promise<{order_id: string}> {
   }
 }
 
-async completedOrdersByUser(userId: string): Promise<{order_id: string}[]> {
+async completedOrdersByUser(userId: string): Promise<{id: string}[]> {
   try {
-    const sql = "select order_id from orders where status = 'complete' and user_id = $1"
+    const sql = "select id from orders where status = 'complete' and user_id = $1"
       //@ts-ignore
       const conn = await Client.connect()
 
@@ -78,45 +84,88 @@ async completedOrdersByUser(userId: string): Promise<{order_id: string}[]> {
   }
 }
 
-  async addProduct(o: Order): Promise<Order> {
+async create_order(o: Order) {
+  const sql = 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *'
+  //@ts-ignore
+  const conn = await Client.connect()
+
+  const result = await conn
+      .query(sql, [o.user_id, o.status])
+
+  const order = result.rows[0]
+
+  conn.release()
+  return order
+}
+
+  async addProduct(op: OrderProduct, o: Order): Promise<OrderProduct> {
     try { 
       const prodStore = new ProductStore(); 
-      if (!await prodStore.show(o.product_id)) { 
+      if (!await prodStore.show(op.product_id)) { 
+        const orderProd_elt = {
+          order_id: '',
+          product_id: op.product_id,
+          quantity: 0
+          //user_id: '',
+          //status: ''
+        }
+        return orderProd_elt
+      }
+      const user_store = new UserStore()
+      const user = await user_store.show(o.user_id)
+      const order = await this.show(o.id as string)
+      if (!user) {
         const order_elt = {
           order_id: '',
-          product_id: o.product_id,
+          product_id: '',
           quantity: 0,
-          user_id: '',
-          status: ''
         }
         return order_elt
       }
-      const user_store = new UserStore()
-      const prod = await user_store.show(o.user_id)
-      if (!prod) { 
-        const order_elt2 = {
-          order_id: '',
-          product_id: o.product_id,
-          quantity: 0,
-          user_id: o.user_id,
-          status: ''
-        }
-        return order_elt2
+      if ((!order) && user) { 
+        const order_elt = await this.create_order(o)
+        const sql = 'INSERT INTO orders_products (order_id, quantity, product_id) VALUES($1, $2, $3) RETURNING *'
+        //@ts-ignore
+        const conn = await Client.connect()
+  
+        const result = await conn
+            .query(sql, [op.order_id, op.quantity, op.product_id])
+  
+        const orderProduct = result.rows[0]
+  
+        conn.release()
+        return orderProduct
       }
-      const sql = 'INSERT INTO orders (order_id, quantity, user_id, product_id, status) VALUES($1, $2, $3, $4, $5) RETURNING *'
-      //@ts-ignore
-      const conn = await Client.connect()
-
-      const result = await conn
-          .query(sql, [o.order_id, o.quantity, o.user_id, o.product_id, o.status])
-
-      const order = result.rows[0]
-
-      conn.release()
-
-      return order
+      else {
+        if (order && order.status == 'complete') {
+            const order_elt = {
+              order_id: op.order_id,
+              product_id: '',
+              quantity: 0
+            }
+            return order_elt
+        }
+      }
+      if ((order.status == 'activate') && order.user_id == user.id) {
+        const sql = 'INSERT INTO orders_products (order_id, quantity, product_id) VALUES($1, $2, $3) RETURNING *'
+        //@ts-ignore
+        const conn = await Client.connect()
+  
+        const result = await conn
+            .query(sql, [op.order_id, op.quantity, op.product_id])
+  
+        const orderProduct = result.rows[0]
+  
+        conn.release()
+        return orderProduct
+      }
+      return ({
+        order_id: '',
+        product_id: '',
+        quantity: 0
+      })
     } catch (err) {
-      throw new Error(`Could not add product ${o.product_id} to order ${o.id}: ${err}`)
+      throw new Error(`Could not add product ${op.product_id} to order ${op.order_id}: ${err}`)
     }
   }
   
