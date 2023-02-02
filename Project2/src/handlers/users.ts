@@ -23,7 +23,8 @@ const index = async (_req: Request, res: Response) => {
         return
     }
     else {
-        res.status(405)
+        res.status(405).send(`user ${_req.params.id} does not exist`)
+        return
     }
   }
 
@@ -127,7 +128,7 @@ var corsOptions = {
     methods: "GET"
   }
 const userRoutes = (app: express.Application) => {
-    app.get('/users/list', cors(corsOptions), index)
+    app.get('/users/list', cors(corsOptions), verifyAuthToken, index)
     app.get('/users', cors(corsOptions), authenticate)
     app.post('/users', cors({
         origin: '*',
@@ -139,7 +140,7 @@ const userRoutes = (app: express.Application) => {
         optionsSuccessStatus: 200,// For legacy browser support
         methods: "PUT"
       }), verifyAuthToken, checkid, update)
-      app.get('/users/:id', cors(corsOptions), show)
+      app.get('/users/:id', cors(corsOptions), verifyAuthToken, show)
   }
   
   export default userRoutes
