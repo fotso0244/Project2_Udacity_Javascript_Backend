@@ -18,14 +18,11 @@ const index = async (_req: Request, res: Response) => {
 
   const show = async (_req: Request, res: Response) => {
     const user = await store.show(_req.params.id)
-    if (user != null) {
-        res.json(user)
+    if (user == null) {
+        res.status(406).send(`user ${_req.params.id} does not exist`)
         return
     }
-    else {
-        res.status(405).send(`user ${_req.params.id} does not exist`)
-        return
-    }
+    res.json(user)
   }
 
 const create = async (_req: Request, res: Response) => {

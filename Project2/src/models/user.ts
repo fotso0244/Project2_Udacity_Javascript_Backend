@@ -44,7 +44,7 @@ export class UserStore {
   
       return result.rows[0]
       } catch (err) {
-          throw new Error(`Could not find order ${id}. Error: ${err}`)
+          throw new Error(`Could not find user ${id}. Error: ${err}`)
       }
     }
 

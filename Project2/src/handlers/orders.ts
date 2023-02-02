@@ -26,6 +26,15 @@ const index = async (_req: Request, res: Response) => {
   const orderid = await store.completedOrdersByUser(req.params.userid)
   res.json(orderid)
 }
+const createOrder = async (req: Request, res: Response)=> {
+  const newOrder = {
+    order_id: req.params.orderid,
+    user_id: req.params.id,
+    status: 'active'
+  }
+  const order = await store.create_order(newOrder)
+  res.json(order)
+}
 const updateStatus = async (req: Request, res: Response) => {
   if (!await store.show(req.params.orderid)) {
     res.status(401).send(`order ${req.params.orderid} does not exist`)
@@ -140,5 +149,10 @@ const orderRoutes = (app: express.Application) => {
       optionsSuccessStatus: 200,// For legacy browser support
       methods: "POST"
     }), verifyAuthToken, checkid, addProduct)
+    app.post('/users/:id/orders/:orderid', cors({
+      origin: '*',
+      optionsSuccessStatus: 200,// For legacy browser support
+      methods: "POST"
+    }), verifyAuthToken, checkid, createOrder)
 }
 export default orderRoutes

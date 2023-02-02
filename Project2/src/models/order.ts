@@ -107,11 +107,11 @@ async updateStatus(id: string, status: string): Promise<Order> {
 
 
     const result = await conn.query(sql, [id, status])
-    const user = result.rows[0]
+    const order = result.rows[0]
 
     conn.release()
 
-    return user
+    return order
   } catch(err) {
     throw new Error(`unable update status for order (${id}): ${err}`)
   } 
